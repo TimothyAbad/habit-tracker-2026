@@ -19,7 +19,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
-        title="Today"
+        title="Hello"
         onAdd={() => setModalVisible(true)}
       />
 
