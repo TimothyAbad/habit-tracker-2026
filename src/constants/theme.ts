@@ -63,3 +63,13 @@ export const Spacing = {
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
+
+export const HeatmapColors = {
+  level0: '#F0F0F0',
+  level1: '#C0C0C0',
+  level2: '#909090',
+  level3: '#505050',
+  level4: '#000000',
+} as const;
+
+export type HeatmapLevel = 0 | 1 | 2 | 3 | 4;
