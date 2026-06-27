@@ -1,2 +1,2 @@
 # habit-tracker-2026
-Building a Mobile App with React Native and Expo - Using Claude Code to help build a mobile application using React Native and Expo.
+Building a Mobile App with React Native and Expo - Using Claude Code to help build a mobile application using React Native and Expo. Create screens, add simple navigation, design a clean user interface, and test the app as you go. This is slightly more complex than a web app because mobile projects require you to think about app structure, device layout, and mobile-first user experience. The main skill I learn here is using Claude Code to build cross-platform mobile app prototypes.
