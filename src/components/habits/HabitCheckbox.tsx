@@ -7,6 +7,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { Colors } from '@/constants/theme';
+import { usePrimaryColor } from '@/contexts/primary-color-context';
 
 type Props = {
   checked: boolean;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export function HabitCheckbox({ checked, onPress, size = 28 }: Props) {
+  const { primaryColor } = usePrimaryColor();
   const scale = useSharedValue(1);
 
   useEffect(() => {
@@ -36,8 +38,8 @@ export function HabitCheckbox({ checked, onPress, size = 28 }: Props) {
             width: size,
             height: size,
             borderRadius: size / 2,
-            backgroundColor: checked ? Colors.light.text : Colors.light.background,
-            borderColor: checked ? Colors.light.text : '#C0C0C0',
+            backgroundColor: checked ? primaryColor : Colors.light.background,
+            borderColor: checked ? primaryColor : '#C0C0C0',
           },
           animatedStyle,
         ]}>

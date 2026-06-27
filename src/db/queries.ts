@@ -80,6 +80,15 @@ export async function updateHabitEmoji(db: SQLiteDatabase, id: number, emoji: st
   await db.runAsync('UPDATE habits SET emoji = ? WHERE id = ?', emoji, id);
 }
 
+export async function getSetting(db: SQLiteDatabase, key: string): Promise<string | null> {
+  const row = await db.getFirstAsync<{ value: string }>('SELECT value FROM settings WHERE key = ?', key);
+  return row?.value ?? null;
+}
+
+export async function setSetting(db: SQLiteDatabase, key: string, value: string): Promise<void> {
+  await db.runAsync('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)', key, value);
+}
+
 export async function deleteAllData(db: SQLiteDatabase): Promise<void> {
   await db.runAsync('DELETE FROM completions');
   await db.runAsync('DELETE FROM habits');

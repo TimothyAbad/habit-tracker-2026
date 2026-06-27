@@ -6,8 +6,9 @@ import { Divider } from '@/components/ui/Divider';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { StatCard } from '@/components/ui/StatCard';
 import { ThemedText } from '@/components/themed-text';
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, PRIMARY_COLORS, Spacing } from '@/constants/theme';
 import { useHabitsContext } from '@/contexts/habits-context';
+import { usePrimaryColor } from '@/contexts/primary-color-context';
 
 type AggregateStats = {
   totalHabits: number;
@@ -18,6 +19,7 @@ type AggregateStats = {
 export default function ProfileScreen() {
   const db = useSQLiteContext();
   const { habits, resetAllData } = useHabitsContext();
+  const { colorId, setPrimaryColorId } = usePrimaryColor();
   const [stats, setStats] = useState<AggregateStats>({
     totalHabits: 0,
     totalCompletions: 0,
@@ -96,6 +98,28 @@ export default function ProfileScreen() {
           SETTINGS
         </ThemedText>
 
+        <View style={styles.settingRow}>
+          <ThemedText type="default">Accent color</ThemedText>
+          <View style={styles.colorRow}>
+            {PRIMARY_COLORS.map((option) => {
+              const selected = option.id === colorId;
+              return (
+                <Pressable
+                  key={option.id}
+                  onPress={() => setPrimaryColorId(option.id)}
+                  hitSlop={6}
+                  style={[
+                    styles.colorSwatch,
+                    { backgroundColor: option.color },
+                    selected && styles.colorSwatchSelected,
+                  ]}>
+                  {selected && <View style={styles.colorSwatchCheck} />}
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+
         <Pressable onPress={handleReset} style={({ pressed }) => [styles.settingRow, pressed && styles.pressed]}>
           <ThemedText type="default" style={styles.destructiveText}>
             Reset all data
@@ -134,6 +158,36 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.light.backgroundElement,
     gap: Spacing.one,
+  },
+  colorRow: {
+    flexDirection: 'row',
+    gap: Spacing.two,
+    marginTop: Spacing.two,
+  },
+  colorSwatch: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  colorSwatchSelected: {
+    borderWidth: 2.5,
+    borderColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  colorSwatchCheck: {
+    width: 8,
+    height: 5,
+    borderLeftWidth: 2,
+    borderBottomWidth: 2,
+    borderColor: '#FFFFFF',
+    transform: [{ rotate: '-45deg' }],
+    marginTop: -2,
   },
   pressed: {
     opacity: 0.6,

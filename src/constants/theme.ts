@@ -73,3 +73,40 @@ export const HeatmapColors = {
 } as const;
 
 export type HeatmapLevel = 0 | 1 | 2 | 3 | 4;
+
+export type HeatmapPalette = [string, string, string, string, string];
+
+export const PRIMARY_COLORS = [
+  {
+    id: 'black',
+    label: 'Ink',
+    color: '#000000',
+    heatmap: ['#EBEBEB', '#BDBDBD', '#888888', '#444444', '#000000'] as HeatmapPalette,
+  },
+  {
+    id: 'indigo',
+    label: 'Indigo',
+    color: '#4F46E5',
+    heatmap: ['#EBEBEB', '#C4C2F5', '#9290EC', '#6B67E8', '#4F46E5'] as HeatmapPalette,
+  },
+  {
+    id: 'emerald',
+    label: 'Emerald',
+    color: '#059669',
+    heatmap: ['#EBEBEB', '#A7EDD0', '#4EC9A3', '#15A875', '#059669'] as HeatmapPalette,
+  },
+  {
+    id: 'rose',
+    label: 'Rose',
+    color: '#E11D48',
+    heatmap: ['#EBEBEB', '#FECDD3', '#FB7185', '#F43F5E', '#E11D48'] as HeatmapPalette,
+  },
+  {
+    id: 'amber',
+    label: 'Amber',
+    color: '#D97706',
+    heatmap: ['#EBEBEB', '#FDE68A', '#FBBF24', '#F59E0B', '#D97706'] as HeatmapPalette,
+  },
+] as const;
+
+export type PrimaryColorId = (typeof PRIMARY_COLORS)[number]['id'];

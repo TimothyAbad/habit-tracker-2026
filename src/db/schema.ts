@@ -19,8 +19,16 @@ export const CREATE_COMPLETIONS_TABLE = `
   );
 `;
 
+export const CREATE_SETTINGS_TABLE = `
+  CREATE TABLE IF NOT EXISTS settings (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+  );
+`;
+
 export async function migrateDb(db: SQLiteDatabase) {
   await db.execAsync(CREATE_HABITS_TABLE);
   await db.execAsync(CREATE_COMPLETIONS_TABLE);
+  await db.execAsync(CREATE_SETTINGS_TABLE);
   await db.execAsync('PRAGMA foreign_keys = ON;');
 }
