@@ -1,6 +1,6 @@
 import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 
 import { Divider } from '@/components/ui/Divider';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
@@ -64,18 +64,20 @@ export default function ProfileScreen() {
   }, [db, habits]);
 
   function handleReset() {
-    Alert.alert(
-      'Reset all data',
-      'This will permanently delete all habits and completion history. This cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Reset',
-          style: 'destructive',
-          onPress: resetAllData,
-        },
-      ]
-    );
+    if (Platform.OS === 'web') {
+      if (window.confirm('This will permanently delete all habits and completion history. This cannot be undone.')) {
+        resetAllData();
+      }
+    } else {
+      Alert.alert(
+        'Reset all data',
+        'This will permanently delete all habits and completion history. This cannot be undone.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Reset', style: 'destructive', onPress: resetAllData },
+        ]
+      );
+    }
   }
 
   return (

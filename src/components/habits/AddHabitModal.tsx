@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 
+
 import { ColorPicker } from './ColorPicker';
 
 import { ThemedText } from '@/components/themed-text';
@@ -49,7 +50,11 @@ export function AddHabitModal({ visible, onClose, onAdd }: Props) {
   async function handleAdd() {
     const trimmedName = name.trim();
     if (!trimmedName) {
-      Alert.alert('Name required', 'Please enter a habit name.');
+      if (Platform.OS === 'web') {
+        window.alert('Please enter a habit name.');
+      } else {
+        Alert.alert('Name required', 'Please enter a habit name.');
+      }
       return;
     }
     const finalEmoji = emoji || '⭐';

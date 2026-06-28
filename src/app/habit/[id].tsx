@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 
 import { ContributionHeatmap } from '@/components/heatmap/ContributionHeatmap';
 import { ColorPicker } from '@/components/habits/ColorPicker';
@@ -20,21 +20,27 @@ export default function HabitDetailScreen() {
   const { weeks, stats } = useHeatmap(habitId);
 
   function handleDelete() {
-    Alert.alert(
-      'Delete habit',
-      `Delete "${habit?.name}"? All history will be lost.`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            await deleteHabit(habitId);
-            router.back();
+    if (Platform.OS === 'web') {
+      if (window.confirm(`Delete "${habit?.name}"? All history will be lost.`)) {
+        deleteHabit(habitId).then(() => router.back());
+      }
+    } else {
+      Alert.alert(
+        'Delete habit',
+        `Delete "${habit?.name}"? All history will be lost.`,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Delete',
+            style: 'destructive',
+            onPress: async () => {
+              await deleteHabit(habitId);
+              router.back();
+            },
           },
-        },
-      ]
-    );
+        ]
+      );
+    }
   }
 
   if (!habit) return null;
