@@ -1,4 +1,7 @@
 const EMOJI_MAP: { keywords: string[]; emoji: string }[] = [
+  { keywords: ['candy', 'sweets', 'chocolate', 'sugar'], emoji: '🍭' },
+  { keywords: ['junk food', 'fast food', 'burger', 'chips', 'snack', 'pizza', 'fries'], emoji: '🍟' },
+  { keywords: ['soda', 'pop', 'cola', 'soft drink', 'coke', 'sprite', 'pepsi'], emoji: '🥤' },
   { keywords: ['walk', 'walking', 'steps', 'step'], emoji: '🚶' },
   { keywords: ['run', 'running', 'jog', 'jogging', 'sprint'], emoji: '🏃' },
   { keywords: ['gym', 'lift', 'weights', 'strength', 'workout', 'exercise', 'train', 'training'], emoji: '💪' },

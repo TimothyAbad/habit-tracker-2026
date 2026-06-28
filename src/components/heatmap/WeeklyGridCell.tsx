@@ -2,16 +2,16 @@ import { StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
-import { usePrimaryColor } from '@/contexts/primary-color-context';
 
 type Props = {
   completed: boolean;
   isFuture: boolean;
   size?: number;
+  color?: string;
 };
 
-export function WeeklyGridCell({ completed, isFuture, size = 32 }: Props) {
-  const { primaryColor } = usePrimaryColor();
+export function WeeklyGridCell({ completed, isFuture, size = 32, color }: Props) {
+  const activeColor = color ?? '#000000';
 
   if (isFuture) {
     return <View style={[styles.cell, { width: size, height: size, borderRadius: 6 }]} />;
@@ -25,7 +25,7 @@ export function WeeklyGridCell({ completed, isFuture, size = 32 }: Props) {
           width: size,
           height: size,
           borderRadius: 6,
-          backgroundColor: completed ? primaryColor : '#E8E8E8',
+          backgroundColor: completed ? activeColor : '#E8E8E8',
         },
       ]}>
       <ThemedText

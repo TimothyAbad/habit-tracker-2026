@@ -5,6 +5,7 @@ export const CREATE_HABITS_TABLE = `
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     emoji TEXT NOT NULL DEFAULT '✅',
+    color TEXT NOT NULL DEFAULT 'black',
     sort_order INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL DEFAULT (date('now'))
   );
@@ -31,4 +32,9 @@ export async function migrateDb(db: SQLiteDatabase) {
   await db.execAsync(CREATE_COMPLETIONS_TABLE);
   await db.execAsync(CREATE_SETTINGS_TABLE);
   await db.execAsync('PRAGMA foreign_keys = ON;');
+  try {
+    await db.execAsync("ALTER TABLE habits ADD COLUMN color TEXT NOT NULL DEFAULT 'black'");
+  } catch {
+    // column already exists on existing installs
+  }
 }

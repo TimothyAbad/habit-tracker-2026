@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { WeeklyGridCell } from './WeeklyGridCell';
 
 import { ThemedText } from '@/components/themed-text';
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, PRIMARY_COLORS, Spacing } from '@/constants/theme';
 import { type HabitRow } from '@/hooks/use-week-grid';
 
 const CELL_SIZE = 32;
@@ -32,7 +32,9 @@ export function WeeklyGrid({ rows, weekDates, onHabitPress }: Props) {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {rows.map(({ habit, days }) => (
+        {rows.map(({ habit, days }) => {
+          const habitColor = PRIMARY_COLORS.find((c) => c.id === habit.color)?.color ?? '#000000';
+          return (
           <Pressable
             key={habit.id}
             onPress={() => onHabitPress?.(habit.id)}
@@ -49,10 +51,12 @@ export function WeeklyGrid({ rows, weekDates, onHabitPress }: Props) {
                 completed={day.completed}
                 isFuture={day.isFuture}
                 size={CELL_SIZE}
+                color={habitColor}
               />
             ))}
           </Pressable>
-        ))}
+          );
+        })}
       </ScrollView>
     </View>
   );

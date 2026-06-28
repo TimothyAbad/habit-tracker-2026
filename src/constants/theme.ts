@@ -103,9 +103,9 @@ export const PRIMARY_COLORS = [
   },
   {
     id: 'amber',
-    label: 'Amber',
-    color: '#D97706',
-    heatmap: ['#EBEBEB', '#FDE68A', '#FBBF24', '#F59E0B', '#D97706'] as HeatmapPalette,
+    label: 'Yellow',
+    color: '#EAB308',
+    heatmap: ['#EBEBEB', '#FEF08A', '#FDE047', '#FACC15', '#EAB308'] as HeatmapPalette,
   },
 ] as const;
 

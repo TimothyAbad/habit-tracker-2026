@@ -2,11 +2,12 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 
 import { ContributionHeatmap } from '@/components/heatmap/ContributionHeatmap';
+import { ColorPicker } from '@/components/habits/ColorPicker';
 import { ThemedText } from '@/components/themed-text';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { StatCard } from '@/components/ui/StatCard';
 import { Divider } from '@/components/ui/Divider';
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, PRIMARY_COLORS, Spacing } from '@/constants/theme';
 import { useHabitsContext } from '@/contexts/habits-context';
 import { useHeatmap } from '@/hooks/use-heatmap';
 
@@ -14,7 +15,7 @@ export default function HabitDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const habitId = Number(id);
   const router = useRouter();
-  const { habits, deleteHabit } = useHabitsContext();
+  const { habits, deleteHabit, updateHabitColor } = useHabitsContext();
   const habit = habits.find((h) => h.id === habitId);
   const { weeks, stats } = useHeatmap(habitId);
 
@@ -50,7 +51,7 @@ export default function HabitDetailScreen() {
           CONSISTENCY
         </ThemedText>
 
-        <ContributionHeatmap weeks={weeks} />
+        <ContributionHeatmap weeks={weeks} palette={PRIMARY_COLORS.find((c) => c.id === habit.color)?.heatmap} />
 
         <Divider marginVertical={Spacing.four} />
 
@@ -61,6 +62,16 @@ export default function HabitDetailScreen() {
           <View style={styles.statGap} />
           <StatCard value={stats.totalCompletions} label="Total" />
         </View>
+
+        <Divider marginVertical={Spacing.four} />
+
+        <ThemedText type="smallBold" themeColor="textSecondary" style={styles.sectionLabel}>
+          COLOR
+        </ThemedText>
+        <ColorPicker
+          selected={habit.color ?? 'black'}
+          onSelect={(colorId) => updateHabitColor(habitId, colorId)}
+        />
 
         <Divider marginVertical={Spacing.four} />
 

@@ -10,6 +10,8 @@ import {
   View,
 } from 'react-native';
 
+import { ColorPicker } from './ColorPicker';
+
 import { ThemedText } from '@/components/themed-text';
 import { Colors, Spacing } from '@/constants/theme';
 import { suggestEmoji } from '@/utils/emoji-suggestions';
@@ -17,7 +19,7 @@ import { suggestEmoji } from '@/utils/emoji-suggestions';
 type Props = {
   visible: boolean;
   onClose: () => void;
-  onAdd: (name: string, emoji: string) => Promise<void>;
+  onAdd: (name: string, emoji: string, color: string) => Promise<void>;
 };
 
 
@@ -25,6 +27,7 @@ export function AddHabitModal({ visible, onClose, onAdd }: Props) {
   const [emoji, setEmoji] = useState('');
   const [emojiEditedManually, setEmojiEditedManually] = useState(false);
   const [name, setName] = useState('');
+  const [selectedColor, setSelectedColor] = useState('black');
   const [loading, setLoading] = useState(false);
   const nameRef = useRef<TextInput>(null);
 
@@ -52,9 +55,10 @@ export function AddHabitModal({ visible, onClose, onAdd }: Props) {
     const finalEmoji = emoji || '⭐';
     setLoading(true);
     try {
-      await onAdd(trimmedName, finalEmoji);
+      await onAdd(trimmedName, finalEmoji, selectedColor);
       setEmoji('');
       setName('');
+      setSelectedColor('black');
       setEmojiEditedManually(false);
       onClose();
     } finally {
@@ -98,6 +102,10 @@ export function AddHabitModal({ visible, onClose, onAdd }: Props) {
             onSubmitEditing={handleAdd}
             autoFocus
           />
+
+          <View style={styles.colorPickerRow}>
+            <ColorPicker selected={selectedColor} onSelect={setSelectedColor} />
+          </View>
 
           <Pressable
             onPress={handleAdd}
@@ -157,6 +165,9 @@ const styles = StyleSheet.create({
     padding: Spacing.three,
     fontSize: 16,
     color: Colors.light.text,
+    marginBottom: Spacing.three,
+  },
+  colorPickerRow: {
     marginBottom: Spacing.three,
   },
   addButton: {

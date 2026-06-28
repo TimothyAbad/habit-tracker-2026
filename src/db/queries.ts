@@ -4,6 +4,7 @@ export type Habit = {
   id: number;
   name: string;
   emoji: string;
+  color: string;
   sort_order: number;
   created_at: string;
 };
@@ -22,8 +23,12 @@ export async function getHabits(db: SQLiteDatabase): Promise<Habit[]> {
   return db.getAllAsync<Habit>('SELECT * FROM habits ORDER BY sort_order ASC, id ASC');
 }
 
-export async function addHabit(db: SQLiteDatabase, name: string, emoji: string): Promise<void> {
-  await db.runAsync('INSERT INTO habits (name, emoji) VALUES (?, ?)', name, emoji);
+export async function addHabit(db: SQLiteDatabase, name: string, emoji: string, color: string): Promise<void> {
+  await db.runAsync('INSERT INTO habits (name, emoji, color) VALUES (?, ?, ?)', name, emoji, color);
+}
+
+export async function updateHabitColor(db: SQLiteDatabase, id: number, color: string): Promise<void> {
+  await db.runAsync('UPDATE habits SET color = ? WHERE id = ?', color, id);
 }
 
 export async function deleteHabit(db: SQLiteDatabase, id: number): Promise<void> {

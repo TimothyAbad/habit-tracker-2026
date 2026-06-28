@@ -12,6 +12,7 @@ import {
   getHabits,
   insertCompletion,
   today,
+  updateHabitColor as dbUpdateHabitColor,
   updateHabitEmoji,
 } from '@/db/queries';
 import { suggestEmoji } from '@/utils/emoji-suggestions';
@@ -20,9 +21,10 @@ type HabitsContextValue = {
   habits: Habit[];
   todayCompletions: Set<number>;
   completionVersion: number;
-  addHabit: (name: string, emoji: string) => Promise<void>;
+  addHabit: (name: string, emoji: string, color: string) => Promise<void>;
   deleteHabit: (id: number) => Promise<void>;
   toggleCompletion: (habitId: number, date: string) => Promise<void>;
+  updateHabitColor: (id: number, color: string) => Promise<void>;
   resetAllData: () => Promise<void>;
   isLoaded: boolean;
 };
@@ -63,10 +65,18 @@ export function HabitsProvider({ children }: { children: React.ReactNode }) {
   }, [db]);
 
   const addHabit = useCallback(
-    async (name: string, emoji: string) => {
-      await dbAddHabit(db, name, emoji);
+    async (name: string, emoji: string, color: string) => {
+      await dbAddHabit(db, name, emoji, color);
       const updated = await getHabits(db);
       setHabits(updated);
+    },
+    [db]
+  );
+
+  const updateHabitColor = useCallback(
+    async (id: number, color: string) => {
+      await dbUpdateHabitColor(db, id, color);
+      setHabits((prev) => prev.map((h) => (h.id === id ? { ...h, color } : h)));
     },
     [db]
   );
@@ -135,7 +145,7 @@ export function HabitsProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <HabitsContext.Provider
-      value={{ habits, todayCompletions, completionVersion, addHabit, deleteHabit, toggleCompletion, resetAllData, isLoaded }}>
+      value={{ habits, todayCompletions, completionVersion, addHabit, deleteHabit, toggleCompletion, updateHabitColor, resetAllData, isLoaded }}>
       {children}
     </HabitsContext.Provider>
   );

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { HabitCheckbox } from './HabitCheckbox';
 
 import { ThemedText } from '@/components/themed-text';
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, PRIMARY_COLORS, Spacing } from '@/constants/theme';
 import { type Habit } from '@/db/queries';
 
 type Props = {
@@ -14,6 +14,8 @@ type Props = {
 };
 
 export function HabitListItem({ habit, completed, onToggle, onPress }: Props) {
+  const habitColor = PRIMARY_COLORS.find((c) => c.id === habit.color)?.color ?? '#000000';
+
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
       <View style={styles.left}>
@@ -22,7 +24,7 @@ export function HabitListItem({ habit, completed, onToggle, onPress }: Props) {
           {habit.name}
         </ThemedText>
       </View>
-      <HabitCheckbox checked={completed} onPress={onToggle} />
+      <HabitCheckbox checked={completed} onPress={onToggle} color={habitColor} />
     </Pressable>
   );
 }
