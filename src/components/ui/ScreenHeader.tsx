@@ -1,4 +1,3 @@
-import { SymbolView } from 'expo-symbols';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -15,11 +14,7 @@ export function ScreenHeader({ title, onAdd, onBack }: Props) {
     <View style={styles.container}>
       {onBack ? (
         <Pressable onPress={onBack} style={styles.iconButton} hitSlop={8}>
-          <SymbolView
-            name="chevron.left"
-            size={20}
-            tintColor={Colors.light.text}
-          />
+          <ThemedText style={styles.iconText}>‹</ThemedText>
         </Pressable>
       ) : (
         <View style={styles.iconButton} />
@@ -31,11 +26,7 @@ export function ScreenHeader({ title, onAdd, onBack }: Props) {
 
       {onAdd ? (
         <Pressable onPress={onAdd} style={styles.iconButton} hitSlop={8}>
-          <SymbolView
-            name="plus"
-            size={22}
-            tintColor={Colors.light.text}
-          />
+          <ThemedText style={styles.iconText}>+</ThemedText>
         </Pressable>
       ) : (
         <View style={styles.iconButton} />
@@ -63,5 +54,10 @@ const styles = StyleSheet.create({
     height: 36,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  iconText: {
+    fontSize: 28,
+    lineHeight: 32,
+    color: Colors.light.text,
   },
 });
