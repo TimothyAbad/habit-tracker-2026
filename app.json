@@ -33,6 +33,11 @@
       ],
       "expo-sqlite"
     ],
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
     "experiments": {
       "typedRoutes": true
     }
